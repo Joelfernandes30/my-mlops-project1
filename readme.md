@@ -19,7 +19,10 @@ This project demonstrates a complete CI/CD workflow to automate the building, co
 
 - Machine type: `e2-standard`
 - OS: **Ubuntu**
+- Networking: Allow Http
+- Allow Access to all API
 - SSH into the VM once created.
+
 
 ---
 
@@ -27,6 +30,11 @@ This project demonstrates a complete CI/CD workflow to automate the building, co
 
 Follow the official Jenkins installation guide for Ubuntu:  
 [Install Jenkins on Ubuntu](https://phoenixnap.com/kb/install-jenkins-ubuntu)
+
+- Open port 8080 from network firewall, make sure to give access to all instance
+- Copy external IP address for VM:8080 in browser
+- Copy password from /var with sudo in front of it and paste
+- install all suggested plugins
 
 ---
 
@@ -49,6 +57,7 @@ sudo systemctl restart jenkins
 ## 🐍 5. Install Python & Dependencies Inside VM
 
 ```bash
+sudo su
 apt update -y
 apt install -y python3
 python3 --version
