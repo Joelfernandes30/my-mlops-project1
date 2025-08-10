@@ -229,7 +229,7 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        GCP_PROJECT = "eighth-cacao-455017-q1"
+        GCP_PROJECT = "eighth-cacao-455017-q1" ## add your gcp project name id here 
         GCLOUD_PATH = "/var/jenkins_home/google-cloud-sdk/bin"
     }
 
