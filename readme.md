@@ -1,6 +1,3 @@
-Here’s a neatly formatted **`README.md`** for your GitHub documentation, with clean sections, code blocks, and step-by-step instructions:
-
----
 
 ````markdown
 # CI/CD Pipeline with Jenkins, Docker, and Google Cloud
@@ -307,10 +304,4 @@ This setup fully automates:
 
 You now have a complete **CI/CD pipeline** running on **Google Cloud**.
 
----
 
-```
-
----
-
-```
