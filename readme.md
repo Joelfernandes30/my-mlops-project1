@@ -1,5 +1,3 @@
-
-````markdown
 # CI/CD Pipeline with Jenkins, Docker, and Google Cloud
 
 This project demonstrates a complete CI/CD workflow to automate the building, containerization, and deployment of a Python-based ML application to **Google Cloud Run** using **Jenkins**, **Docker**, and **Google Cloud Registry (GCR)**.
@@ -47,9 +45,6 @@ groupadd docker
 usermod -aG docker jenkins
 usermod -aG root jenkins
 sudo systemctl restart jenkins
-````
-
----
 
 ## 🐍 5. Install Python & Dependencies Inside VM
 
