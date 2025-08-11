@@ -35,30 +35,36 @@ pipeline {
             }
         }
 
-        stage('Building and Pushing Docker Image to GCR'){
-            steps{
-                withCredentials([file(credentialsId: 'gcp-key' , variable : 'GOOGLE_APPLICATION_CREDENTIALS')]){
-                    script{
-                        echo 'Building and Pushing Docker Image to GCR.............'
-                        sh '''
-                        export PATH=$PATH:${GCLOUD_PATH}
+        stage("Build & Push Docker Image to Artifact Registry") {
+    steps {
+        withCredentials([file(credentialsId: 'gcp-key', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
+            script {
+                echo "🐳 Building and pushing Docker image to AR..."
+                sh '''
+                export PATH=$PATH:${GCLOUD_PATH}
 
+                # Authenticate with GCP
+                gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                gcloud config set project ${GCP_PROJECT}
 
-                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                # Create AR repository if not exists
+                gcloud artifacts repositories create ${REPO_NAME} \
+                    --repository-format=docker \
+                    --location=${GCP_REGION} \
+                    --description="Docker repository for edtech-web" || true
 
-                        gcloud config set project ${GCP_PROJECT}
+                # Configure docker for Jenkins user
+                gcloud auth configure-docker ${GCP_REGION}-docker.pkg.dev --quiet --project=${GCP_PROJECT}
 
-                        gcloud auth configure-docker --quiet
-
-                        docker build -t gcr.io/${GCP_PROJECT}/ml-project:latest .
-
-                        docker push gcr.io/${GCP_PROJECT}/ml-project:latest 
-
-                        '''
-                    }
-                }
+                # Build and push
+                docker build -t ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT}/${REPO_NAME}/${IMAGE_NAME}:latest .
+                docker push ${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT}/${REPO_NAME}/${IMAGE_NAME}:latest
+                '''
             }
         }
+    }
+}
+
 
          stage('Deploy to Google Cloud Run'){
             steps{
